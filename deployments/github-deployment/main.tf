@@ -18,7 +18,7 @@ module "gh_usi" {
   source = "../../modules/UserAssignedIdentity"
   location = var.location
   name = var.name_identity
-  rg_name = module.IdentityResourceGroup.identity_rg_name
+  rg_name = module.identity-resource-group.identity_rg_name
   tags = var.tags
   
 }
@@ -33,7 +33,7 @@ module "sub_owner_role_assignment" {
 module "gh_federated_credential" {
   source                             = "../../modules/FederatedIdentityCredential"
   federated_identity_credential_name = "${var.github_organization_target}-${var.github_repository}-${var.environment}"
-  rg_name                            = module.IdentityResourceGroup.identity_rg_name
+  rg_name                            = module.identity-resource-group.identity_rg_name
   user_assigned_identity_id          = module.gh_usi.user_assinged_identity_id
   subject                            = "repo:${var.github_organization_target}/${var.github_repository}:environment:${var.environment}"
   audience_name                      = local.default_audience_name
@@ -43,7 +43,7 @@ module "gh_federated_credential" {
 module "gh_federated_credential-pr" {
   source                             = "../../modules/FederatedIdentityCredential"
   federated_identity_credential_name = "${var.github_organization_target}-${var.github_repository}-pr"
-  rg_name                            = module.IdentityResourceGroup.identity_rg_name
+  rg_name                            = module.identity-resource-group.identity_rg_name
   user_assigned_identity_id          = module.gh_usi.user_assinged_identity_id
   subject                            = "repo:${var.github_organization_target}/${var.github_repository}:pull_request"
   audience_name                      = local.default_audience_name
