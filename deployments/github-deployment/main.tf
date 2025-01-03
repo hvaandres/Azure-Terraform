@@ -2,20 +2,20 @@ data "azurerm_subscription" "sub" {
 }
 
 module "ResourceGroup" {
-    source = "../modules/ResourceGroup"
+    source = "../../Modules/ResourceGroup"
     base_name = var.base_name
     location = var.location
 }
 
 
 module "identity-resource-group" {
-  source           = "../modules/IdentityResourceGroup"
+  source           = "../../modules/IdentityResourceGroup"
   identity_rg_name = var.identity_rg_name
   location         = var.location
 }
 
 module "gh_usi" {
-  source = "../modules/UserAssignedIdentity"
+  source = "../../modules/UserAssignedIdentity"
   location = var.location
   name = var.name_identity
   rg_name = module.IdentityResourceGroup.identity_rg_name
@@ -24,14 +24,14 @@ module "gh_usi" {
 }
 
 module "sub_owner_role_assignment" {
-  source         = "../modules/RoleAssignment"
+  source         = "../../modules/RoleAssignment"
   principal_id   = module.gh_usi.user_assinged_identity_principal_id
   role_name      = var.owner_role_name
   scope_id       = data.azurerm_subscription.sub.id
 }
 
 module "gh_federated_credential" {
-  source                             = "../modules/FederatedIdentityCredential"
+  source                             = "../../modules/FederatedIdentityCredential"
   federated_identity_credential_name = "${var.github_organization_target}-${var.github_repository}-${var.environment}"
   rg_name                            = module.IdentityResourceGroup.identity_rg_name
   user_assigned_identity_id          = module.gh_usi.user_assinged_identity_id
@@ -41,7 +41,7 @@ module "gh_federated_credential" {
 }
 
 module "gh_federated_credential-pr" {
-  source                             = "../modules/FederatedIdentityCredential"
+  source                             = "../../modules/FederatedIdentityCredential"
   federated_identity_credential_name = "${var.github_organization_target}-${var.github_repository}-pr"
   rg_name                            = module.IdentityResourceGroup.identity_rg_name
   user_assigned_identity_id          = module.gh_usi.user_assinged_identity_id
@@ -51,20 +51,20 @@ module "gh_federated_credential-pr" {
 }
 
 module "StorageAccounts" {
-  source = "../modules/StorageAccounts"
+  source = "../../modules/StorageAccounts"
   base_name = var.base_name_storage
   resource_group_name = module.ResourceGroup.resource_group_name
   location = module.ResourceGroup.resource_group_location
 }
 
 module "StorageAccountContainer" {
-  source = "../modules/StorageAccountContainer"
+  source = "../../modules/StorageAccountContainer"
   base_name_container = var.base_name_container
   storage_account_id = module.StorageAccounts.storage_account_id
 }
 
 module "tfstate_role_assignment" {
-  source         = "../modules/RoleAssignment"
+  source         = "../../modules/RoleAssignment"
   principal_id   = module.gh_usi.user_assinged_identity_principal_id
   role_name      = "Storage Blob Data Contributor"
   scope_id       = module.StorageAccounts.storage_account_id

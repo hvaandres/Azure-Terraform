@@ -7,14 +7,13 @@ variable "subscription_id" {
 variable "base_name" {
     type = string
     description = "Name of the resource"
-    default = "aharo-test01"
-  
+    default = "westus"
 }
 
 variable "base_name_storage" {
     type = string
     description = "Name of the storage account"
-    default = "aharotest02"
+    default = "stgwusaharo"
   
 }
 
@@ -27,13 +26,13 @@ variable "location" {
 variable "base_name_network_security_group" {
     type = string
     description = "Name of the network security group"
-    default = "sg-aharo"
+    default = "secgrp-wus-aharo"
 }
 
 variable "base_name_vnet" {
     type = string
     description = "Name of the virtual network"
-    default = "vnet-aharo"
+    default = "vnet-wus-aharo"
 }
 
 variable "tags" {
@@ -47,21 +46,21 @@ variable "tags" {
 variable "name_identity" {
     type = string
     description = "Name of the user assigned identity"
-    default = "lagawh-identity"
+    default = "aharo-identity"
   
 }
 
 variable "identity_rg_name" {
     type = string
     description = "Name of the resource group"
-    default = "identity-rg"
+    default = "rg-identity-aharo"
   
 }
 
 variable "resource_group_name" {
     type = string
     description = "Name of the resource group"
-    default = "aharo-test01"
+    default = "wus-aharo"
   
 }
 
@@ -98,7 +97,7 @@ variable "github_organization_target" {
 variable "github_repository" {
   description = "The name of the GitHub repository."
   type        = string
-  default = "azure-terraform"
+  default = "Azure-Terraform"
 }
 
 variable "environment" {
@@ -110,6 +109,6 @@ variable "environment" {
 variable "base_name_container" {
   description = "The base name of the storage account container."
   type        = string
-  default = "aharocontainer"
+  default = "wusstate"
   
 }
