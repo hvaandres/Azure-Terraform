@@ -2,7 +2,7 @@ data "azurerm_subscription" "sub" {
 }
 
 module "ResourceGroup" {
-    source = "../../Modules/ResourceGroup"
+    source = "../../modules/ResourceGroup"
     base_name = var.base_name
     location = var.location
 }
