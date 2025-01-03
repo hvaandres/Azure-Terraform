@@ -10,6 +10,12 @@ variable "base_name" {
     default = "westus"
 }
 
+variable "base_name_app" {
+    type = string
+    description = "Name of the Azure AD application"
+    default = "app-wus-aharo"
+}
+
 variable "base_name_storage" {
     type = string
     description = "Name of the storage account"
