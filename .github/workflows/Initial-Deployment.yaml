@@ -1,4 +1,4 @@
-name: Deploy AKS Cluster Infra
+name: Initial Deployment
 on:
   push:
     branches:
@@ -24,7 +24,7 @@ jobs:
     # if: github.event_name == 'pull_request'
     defaults:
       run:
-        working-directory: ./deployments./github-deployment
+        working-directory: /deployments/github-deployment
 
     name: Terraform Plan
     runs-on: ubuntu-latest
@@ -94,7 +94,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan
-          path: ./cluster-deployment/main.tfplan
+          path: /deployments/github-deployment/main.tfplan
 
       - name: Update Pull Request
         uses: actions/github-script@v6
@@ -177,7 +177,7 @@ jobs:
     environment: dev
     defaults:
       run:
-        working-directory: ./cluster-deployment
+        working-directory: /deployments/github-deployment
 
     steps:
       - name: Checkout code
@@ -194,7 +194,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: tfplan
-          path: ./cluster-deployment
+          path: /deployments/github-deployment
 
       - name: Terraform Apply
         run: terraform apply -auto-approve "./main.tfplan"
