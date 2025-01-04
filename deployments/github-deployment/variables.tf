@@ -124,20 +124,20 @@ variable "environment" {
   default = "dev"
 }
 
-variable "base_name_rg" {
-  description = "Base name for the resource group."
-  type        = string
-}
+# variable "base_name_rg" {
+#   description = "Base name for the resource group."
+#   type        = string
+# }
 
 variable "github_issuer_url" {
   description = "GitHub issuer URL."
   type        = string
 }
 
-variable "azure_object_id" {
-  description = "Azure object ID."
-  type        = string
-}
+# variable "azure_object_id" {
+#   description = "Azure object ID."
+#   type        = string
+# }
 
 variable "default_audience_name" {
   description = "Default audience name for the federated identity credential."
