@@ -66,14 +66,34 @@ jobs:
 
       - name: Terraform Plan
         id: plan
+        timeout-minutes: 10
         run: |
+          # Enable debug logging
+          export TF_LOG=DEBUG
+          export TF_LOG_PATH=./terraform.log
+          
+          # Check if tfvars file exists
+          echo "Checking for tfvars file..."
+          ls -la ./tfvars/
+          
+          # Print working directory
+          echo "Current directory:"
+          pwd
+          
           export exitcode=0
-          terraform plan -no-color -var-file="./tfvars/terraform.tfvars" -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" -out main.tfplan || export exitcode=$?
+          echo "Starting terraform plan..."
+          terraform plan -no-color \
+            -var-file="./tfvars/terraform.tfvars" \
+            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
+            -out main.tfplan || export exitcode=$?
 
-          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
-
-          if [ $exitcode -eq 1 ]; then
-            echo "Error: Terraform plan failed"
+          # If plan fails, show detailed information
+          if [ $exitcode -ne 0 ]; then
+            echo "Terraform plan failed with exit code: $exitcode"
+            echo "Terraform logs:"
+            cat terraform.log
+            echo "Directory contents:"
+            ls -R
             exit 1
           else
             echo "Terraform plan was successful"
@@ -129,10 +149,7 @@ jobs:
             echo "## Terraform Plan Output" >> $GITHUB_OUTPUT
             echo "<details><summary>Click to expand</summary>" >> $GITHUB_OUTPUT
             echo "" >> $GITHUB_OUTPUT
-            echo '
-
-            ```
-            terraform' >> $GITHUB_OUTPUT
+            echo '```terraform' >> $GITHUB_OUTPUT
             echo "$TERRAFORM_PLAN" >> $GITHUB_OUTPUT
             echo '```' >> $GITHUB_OUTPUT
             echo "</details>" >> $GITHUB_OUTPUT
@@ -172,6 +189,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Login to Azure using Managed Identity
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
