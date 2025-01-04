@@ -45,6 +45,8 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az account show
+            ls
+            cat ./deployments/github-deployment/tfvars/terraform.tfvars
       
       - name: Upload Terraform TFVars
         run: |
