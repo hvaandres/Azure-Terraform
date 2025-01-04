@@ -11,7 +11,7 @@ modules/.terraform
 crash.log
 
 # Exclude all .tfvars files, which are likely to contain sensitive data, such as password, private keys, and other secrets.
-*.tfvars
+
 
 # Ignore override files as they are usually used to override resources locally and so are not checked in
 override.tf
@@ -28,4 +28,3 @@ terraform.rc
 terraform.tfvars
 
 # Ignore the terraform.tfvars file in the specific directory
-github-deployment/tfvars/terraform.tfvars
