@@ -74,7 +74,7 @@ jobs:
           
           # Check if tfvars file exists
           echo "Checking for tfvars file..."
-          ls -la ./tfvars/
+          ls -la
           
           # Print working directory
           echo "Current directory:"
