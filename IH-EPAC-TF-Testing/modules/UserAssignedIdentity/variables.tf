@@ -1,9 +1,13 @@
-variable "user_assigned_identity" {
-  description = "The user-assigned identity for the module"
-  type        = map(object({
-    user_assigned_identity_name = string
+variable "user_assigned_identities" {
+  description = "Map of user assigned identities with their configurations"
+  type = map(object({
+    # Required fields
+    name                = string
     resource_group_name = string
-    location = string
+    location            = string
+
+    # Optional fields
     tags = optional(map(string))
   }))
+  default = {}
 }

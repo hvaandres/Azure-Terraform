@@ -1,10 +1,11 @@
-variable "federated_identity" {
-  description = "The name of the federated identity credential."
-  type        = map(object({
-    rg_name                    = string
-    audience_name              = string
-    issuer_url                 = string
-    user_assigned_identity_id = string
-    subject                    = string
+variable "federated_credentials" {
+  description = "Map of federated credentials to create"
+  type = map(object({
+    name                = string
+    resource_group_name = string
+    issuer              = string
+    subject             = string
+    audience            = optional(list(string))
+    parent_id           = string
   }))
 }

@@ -1,133 +1,86 @@
-variable "resource_groups" {
-  description = "Map of resource groups to create"
-  type        = map(object({
-    base_name = string
-    location  = string
-    tags      = optional(map(string))
-  }))
-}
-
-variable "subscription_id" {
-  description = "The subscription ID for Azure"
+variable subscription_id {
+  description = "The Azure subscription ID"
   type        = string
 }
 
+variable "resource_groups" {
+  description = "Map of resource groups to create"
+  type = map(object({
+    name     = string
+    location = string
+    tags     = optional(map(string))
+  }))
+}
+
 variable "user_assigned_identity" {
-  description = "The user-assigned identity for the module"
-  type        = map(object({
+  description = "Map of user-assigned identities to create"
+  type = map(object({
     user_assigned_identity_name = string
     resource_group_name = string
     location = string
-    
   }))
 }
 
 
-# variable "base_name_app" {
-#     type = string
-#     description = "Name of the Azure AD application"
-#     default = "app-wus-aharo"
+variable "storage_accounts" {
+  description = "Map of storage accounts to create"
+  type = map(object({
+    name                     = string
+    resource_group_name      = string
+    location                 = string
+    account_tier             = string
+    account_replication_type = string
+    account_kind             = optional(string, "StorageV2")
+    tags                     = optional(map(string))
+  }))
+}
+
+variable "storage_containers" {
+  description = "Map of storage containers to create"
+  type = map(object({
+    storage_account_name = string
+    container_name        = string
+    public_access         = optional(string)
+    metadata              = optional(map(string))
+  }))
+}
+
+variable "federated_credentials" {
+  description = "Map of federated credentials to create"
+  type = map(object({
+    name                = string
+    resource_group_name = string
+    issuer              = string
+    subject             = string
+    audience            = optional(list(string))
+    parent_id           = string  # This should be the ID of the user-assigned managed identity
+  }))
+}
+
+# variable "container_registries" {
+#   description = "Map of container registries to create"
+#   type = map(object({
+#     name                = string
+#     resource_group_name = string
+#     location            = string
+#     sku                 = string
+#     admin_enabled       = optional(bool, false)
+#     tags                = optional(map(string))
+#   }))
 # }
 
-# variable "base_name_storage" {
-#     type = string
-#     description = "Name of the storage account"
-#     default = "stgwusaharo"
-  
-# }
-
-# variable "location" {
-#     type = string
-#     description = "Name of the location use for the resource"
-#     default = "West US"
-# }
-
-# variable "base_name_network_security_group" {
-#     type = string
-#     description = "Name of the network security group"
-#     default = "secgrp-wus-aharo"
-# }
-
-# variable "base_name_vnet" {
-#     type = string
-#     description = "Name of the virtual network"
-#     default = "vnet-wus-aharo"
-# }
-
-# variable "tags" {
-#     type = map(string)
-#     description = "Tags to assign to the resource"
-#     default = {
-#       environment = "dev"
-#     }
-# }
-
-# variable "name_identity" {
-#     type = string
-#     description = "Name of the user assigned identity"
-#     default = "aharo-identity"
-  
-# }
-
-# variable "identity_rg_name" {
-#     type = string
-#     description = "Name of the resource group"
-#     default = "rg-identity-aharo"
-  
-# }
-
-# variable "resource_group_name" {
-#     type = string
-#     description = "Name of the resource group"
-#     default = "wus-aharo"
-  
-# }
-
-# variable role_definition_name {
-#     type = string
-#     description = "Name of the role definition"
-#     default = "Owner"
-# }
-
-# variable "principal_type" {
-#     type = string
-#     description = "Type of principal"
-#     default = "ServicePrincipal"
-# }
-
-# variable "owner_role_name" {
-#   description = "The name of the role definition to assign."
-#   type        = string
-#   default = "Owner"
-# }
-
-# variable "role_name" {
-#   description = "The name of the role to assign."
-#   type        = string
-#   default = "ServicePrincipal"
-# }
-
-# variable "github_organization_target" {
-#   description = "The name of the GitHub organization."
-#   type        = string
-#   default = "hvaandres"
-# }
-
-# variable "github_repository" {
-#   description = "The name of the GitHub repository."
-#   type        = string
-#   default = "Azure-Terraform"
-# }
-
-# variable "environment" {
-#   description = "The environment for the federated identity credential."
-#   type        = string
-#   default = "dev"
-# }
-
-# variable "base_name_container" {
-#   description = "The base name of the storage account container."
-#   type        = string
-#   default = "wusstate"
-  
+# variable "kubernetes_clusters" {
+#   description = "Map of Kubernetes clusters to create"
+#   type = map(object({
+#     name                = string
+#     location            = string
+#     resource_group_name = string
+#     dns_prefix          = string
+#     default_node_pool   = object({
+#       name       = string
+#       node_count = number
+#       vm_size    = string
+#     })
+#     tags = optional(map(string))
+#   }))
 # }

@@ -1,42 +1,17 @@
-variable "name" {
-  description = "The name of the Container Registry"
-  type = string
-}
-
-variable "location" {
-  description = "The location where the resources will be created."
-  type = string
-}
-
-variable "rg_name" {
-  description = "The name of the resource group in which the resources will be created."
-  type = string
-}
-
-variable "sku" {
-  description = "The SKU of the Container Registry"
-  type = string
-}
-
-variable "admin_enabled" {
-  description = "Enable admin user for the Container Registry"
-  type = bool
-}
-
-variable "user_assigned_identity_id" {
-  description = "The ID of the user-assigned managed identity"
-  type = string
-}
-
-variable "tags" {
-  description = "Common tags for all resources"
-  type        = map(string)
-  default = {
-    Environment     = "Testing"
-    Project         = "Terraform"
-    Contact       = "Andres Haro"
-    Department    = "CyberSecurity"
-    Support = "test@test.com"
-
-  }
+variable "container_registries" {
+  type = map(object({
+    name                          = string
+    resource_group_name           = string
+    location                      = string
+    sku                           = string
+    admin_enabled                 = optional(bool, false)
+    public_network_access_enabled = optional(bool, true)
+    allowed_ip_range              = optional(string)
+    retention_policy = optional(object({
+      days    = number
+      enabled = bool
+    }))
+    tags = optional(map(string))
+  }))
+  description = "Map of Azure Container Registries to create"
 }
