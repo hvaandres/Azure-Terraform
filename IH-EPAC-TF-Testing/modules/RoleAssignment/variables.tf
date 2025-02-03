@@ -15,7 +15,7 @@ variable "role_assignments" {
   }))
 }
 
-variable "principal_id" {
+# variable "principal_id" {
 #   description = "The principal ID to assign the role to."
 #   type        = string
 # }
