@@ -15,6 +15,9 @@ resource "azurerm_storage_account" "storage" {
   # TLS minimum version
   min_tls_version = "TLS1_2"
 
+  # public network access
+  public_network_access_enabled = each.value.public_network_access_enabled
+
   # Blob properties with comprehensive configuration
   dynamic "blob_properties" {
     for_each = each.value.blob_properties != null ? [each.value.blob_properties] : []

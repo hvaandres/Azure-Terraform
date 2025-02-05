@@ -6,21 +6,25 @@ variable subscription_id {
 variable "resource_groups" {
   description = "Map of resource groups to create"
   type = map(object({
-    name     = string
-    location = string
-    tags     = optional(map(string))
+    base_name   = string
+    location    = string
+    tags        = optional(map(string))
   }))
 }
 
-variable "user_assigned_identity" {
-  description = "Map of user-assigned identities to create"
+variable "user_assigned_identities" {
+  description = "Map of user assigned identities with their configurations"
   type = map(object({
-    user_assigned_identity_name = string
+    # Required fields
+    name                = string
     resource_group_name = string
-    location = string
-  }))
-}
+    location            = string
 
+    # Optional fields
+    tags = optional(map(string))
+  }))
+  default = {}
+}
 
 variable "storage_accounts" {
   description = "Map of storage accounts to create"
@@ -35,7 +39,7 @@ variable "storage_accounts" {
   }))
 }
 
-variable "storage_containers" {
+variable "storage_account_containers" {
   description = "Map of storage containers to create"
   type = map(object({
     storage_account_name = string
@@ -45,17 +49,19 @@ variable "storage_containers" {
   }))
 }
 
-variable "federated_credentials" {
-  description = "Map of federated credentials to create"
-  type = map(object({
-    name                = string
-    resource_group_name = string
-    issuer              = string
-    subject             = string
-    audience            = optional(list(string))
-    parent_id           = string  # This should be the ID of the user-assigned managed identity
-  }))
-}
+# variable "federated_credentials" {
+#   description = "Map of federated credentials to create"
+#   type = map(object({
+#     name                = string
+#     resource_group_name = string
+#     issuer              = string
+#     subject             = string
+#     audience            = optional(list(string))
+#     parent_id           = string  # This should be the ID of the user-assigned managed identity
+#   }))
+# }
+
+
 
 # variable "container_registries" {
 #   description = "Map of container registries to create"

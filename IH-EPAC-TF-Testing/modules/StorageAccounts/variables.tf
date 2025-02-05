@@ -32,6 +32,9 @@ variable "storage_accounts" {
       })), [])
     }))
 
+    # Container
+    public_network_access_enabled = optional(bool, false)
+
     # Static website configuration
     static_website = optional(object({
       index_document     = string
