@@ -5,6 +5,21 @@ data "azurerm_subscription" "sub" {
 #   name = "tfstate"
 # }
 
+// Roles
+data "azurerm_role_definition" "example" {
+  name = "Storage Blob Data Contributor"
+}
+
+locals {
+  role_assignments = {
+    for key, value in var.role_assignments : key => merge(value, {
+      principal_id = module.user_assigned_identity.principal_ids[key],
+      role_definition_id = data.azurerm_role_definition.example.id
+    })
+  }
+}
+
+
 # Resource Group module
 module "resource_groups" {
   source   = "./modules/ResourceGroup"
@@ -15,6 +30,16 @@ module "resource_groups" {
 module "user_assigned_identity" {
   source = "./modules/UserAssignedIdentity"
   user_assigned_identities = var.user_assigned_identities
+  depends_on = [module.resource_groups]
+}
+
+module "role_assignment" {
+  source = "./modules/RoleAssignment"
+  role_assignments = local.role_assignments
+  depends_on = [
+    module.user_assigned_identity,
+    module.storage_accounts
+  ]
 }
 
 module "storage_accounts" {

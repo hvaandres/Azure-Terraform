@@ -1,4 +1,4 @@
-resource "azurerm_role_assignment" "role-assignment" {
+resource "azurerm_role_assignment" "role_assignment" {
   for_each = var.role_assignments
   
   # Required fields
