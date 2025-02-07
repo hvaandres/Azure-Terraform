@@ -3,7 +3,6 @@ resource "azurerm_role_assignment" "role_assignment" {
   
   # Required fields
   principal_id = each.value.principal_id
-  name         = each.value.name
   role_definition_id = each.value.role_definition_id
   scope        = each.value.scope
   

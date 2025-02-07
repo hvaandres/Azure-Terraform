@@ -10,13 +10,17 @@ data "azurerm_role_definition" "example" {
   name = "Storage Blob Data Contributor"
 }
 
-locals {
-  role_assignments = {
-    for key, value in var.role_assignments : key => merge(value, {
-      principal_id = module.user_assigned_identity.principal_ids[key],
-      role_definition_id = data.azurerm_role_definition.example.id
-    })
-  }
+data "azurerm_role_definition" "storage_account_saharo01" {
+  name = "saharo01"
+}
+data "azurerm_role_definition" "storage_account_saharo02" {
+  name = "saharo02"
+}
+data "azurerm_role_definition" "storage_account_saharo03" {
+  name = "saharo03"
+}
+data "azurerm_role_definition" "storage_account_saharo04" {
+  name = "saharo04"
 }
 
 
@@ -33,14 +37,14 @@ module "user_assigned_identity" {
   depends_on = [module.resource_groups]
 }
 
-module "role_assignment" {
-  source = "./modules/RoleAssignment"
-  role_assignments = local.role_assignments
-  depends_on = [
-    module.user_assigned_identity,
-    module.storage_accounts
-  ]
-}
+# module "role_assignment" {
+#   source = "./modules/RoleAssignment"
+#   role_assignments = local.role_assignments
+#   depends_on = [
+#     module.user_assigned_identity,
+#     module.storage_accounts
+#   ]
+# }
 
 module "storage_accounts" {
   source = "./modules/StorageAccounts"

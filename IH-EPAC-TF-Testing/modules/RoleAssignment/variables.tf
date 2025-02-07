@@ -14,7 +14,6 @@ variable "role_assignments" {
     skip_service_principal_aad_check = optional(bool)
   }))
 }
-
 # variable "principal_id" {
 #   description = "The principal ID to assign the role to."
 #   type        = string
