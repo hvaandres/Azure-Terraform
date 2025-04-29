@@ -6,10 +6,10 @@
 base_name = "aharotest01"
 location  = "West US"
 
-# ResourceGroup module variables
+# ResourceGroup module var
 base_name_rg = "aharo-test01"
 
-# Identity Resource Group module variables
+# Identity Resource Group module var
 identity_rg_name = "aharo-identity-rg"
 
 # User Assigned Identity module variables
