@@ -86,7 +86,6 @@ variable "existing_resource_group_name" {
   description = "The name of the existing resource group."
   type        = string
 }
-}
 
 # Output all database IDs
 output "database_ids" {
